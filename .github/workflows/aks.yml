@@ -8,6 +8,7 @@ on:
 env:
   RESOURCE_GROUP: rg-gitops-demo
   RESOURCE_GROUP_LOCATION: "uksouth"
+  ACR_NAME: "colinbealesacr"
   CLUSTER_NAME: clu-gitops
   CLUSTER_DNS: colindns
 
@@ -28,6 +29,14 @@ jobs:
             #!/bin/bash
             az group create --name ${{ env.RESOURCE_GROUP }} --location ${{ env.RESOURCE_GROUP_LOCATION}}
             echo "Azure resource group created"
+
+      - uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
+          resourceGroupName: rg-gitops-demo
+          template: ./IaC/arm/azuredeployacr.json
+          parameters: acrName=${{env.ACR_NAME}}
+
       - uses: azure/arm-deploy@v1
         with:
           subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
@@ -35,6 +44,13 @@ jobs:
           template: ./IaC/arm/azuredeployaks.json
           parameters: aksClusterName=${{env.CLUSTER_NAME}}
             dnsPrefix=${{env.CLUSTER_DNS}}
+
+      - uses: Azure/CLI@v1
+        with:
+          inlineScript: |
+            #!/bin/bash
+            az aks update -n ${{env.CLUSTER_NAME}} -g ${{env.RESOURCE_GROUP}} --attach-acr ${{env.ACR_NAME}}
+            echo "AAttached ACR to AKS"
 
       - uses: azure/setup-kubectl@v1
         with:

@@ -24,8 +24,8 @@ jobs:
         with:
           subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
           resourceGroupName: rg-gitops-demo
-          template: ./aks/deploy.json
-          parameters: ./aks/deployparams.json
+          template: ./IaC/arm/azuredeployaks.json
+          parameters: ./IaC/arm/azuredeployaks.parameters.json
 
       - uses: azure/setup-kubectl@v1
         with:

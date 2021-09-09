@@ -50,7 +50,7 @@ jobs:
           inlineScript: |
             #!/bin/bash
             az aks update -n ${{env.CLUSTER_NAME}} -g ${{env.RESOURCE_GROUP}} --attach-acr ${{env.ACR_NAME}}
-            echo "AAttached ACR to AKS"
+            echo "Attached ACR to AKS"
 
       - uses: azure/setup-kubectl@v1
         with:

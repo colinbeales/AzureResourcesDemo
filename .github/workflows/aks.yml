@@ -44,6 +44,7 @@ jobs:
           template: ./IaC/arm/azuredeployaks.json
           parameters: aksClusterName=${{env.CLUSTER_NAME}}
             dnsPrefix=${{env.CLUSTER_DNS}}
+            agentCount=1
 
       - uses: Azure/CLI@v1
         with:

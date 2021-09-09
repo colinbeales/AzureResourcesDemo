@@ -6,8 +6,10 @@ on:
   workflow_dispatch:
 
 env:
-  CLUSTER_NAME: clu-gitops
   RESOURCE_GROUP: rg-gitops-demo
+  RESOURCE_GROUP_LOCATION: "uksouth"
+  CLUSTER_NAME: clu-gitops
+  CLUSTER_DNS: colindns
 
 jobs:
   deploy:
@@ -20,16 +22,24 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+     - uses: Azure/CLI@v1
+        with:
+          inlineScript: |
+            #!/bin/bash
+            az group create --name ${{ env.RESOURCE_GROUP }} --location ${{ env.RESOURCE_GROUP_LOCATION}}
+            echo "Azure resource group created"
       - uses: azure/arm-deploy@v1
         with:
           subscriptionId: ${{ secrets.SUBSCRIPTION_ID }}
           resourceGroupName: rg-gitops-demo
           template: ./IaC/arm/azuredeployaks.json
-          parameters: ./IaC/arm/azuredeployaks.parameters.json
+          parameters:
+            aksClusterName=${{env.CLUSTER_NAME}}
+            dnsPrefix=${{env.CLUSTER_DNS}}
 
       - uses: azure/setup-kubectl@v1
         with:
-          version: "v1.18.8"
+          version: "latest"
 
       - uses: azure/aks-set-context@v1
         with:

@@ -26,12 +26,12 @@ jobs:
       - name: Login to Azure Container Registry
         uses: azure/docker-login@v1
         with:
-          login-server: ${ env.ACR_NAME }.azurecr.io
-          username: ${ secrets.CLIENT_ID }
-          password: ${ secrets.CLIENT_SECRET }
+          login-server: ${{env.ACR_NAME}}.azurecr.io
+          username: ${{secrets.CLIENT_ID}}
+          password: ${{secrets.CLIENT_SECRET}}
 
       - name: Build the Docker image
-        run: docker build . -t ${ env.ACR_NAME }.azurecr.io/${ env.APP_NAME }:${ github.sha }
+        run: docker build . -t ${{env.ACR_NAME}}.azurecr.io/${{env.APP_NAME}}:${{github.sha}}
 
       - name: Push Image to Docker
-        run: docker push ${ env.ACR_NAME }.azurecr.io/${ env.APP_NAME }:${ github.sha }
+        run: docker push ${{env.ACR_NAME}}.azurecr.io/${{env.APP_NAME}}:${{github.sha}}

@@ -2,13 +2,13 @@ name: build
 
 on:
   repository_dispatch:
-    types: [deploy]
+    types: [build]
   workflow_dispatch:
 
 env:
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:

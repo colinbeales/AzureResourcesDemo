@@ -3,7 +3,6 @@ on:
   repository_dispatch:
     types: [build]
   workflow_dispatch:
-env:
 jobs:
   build:
     runs-on: ubuntu-latest

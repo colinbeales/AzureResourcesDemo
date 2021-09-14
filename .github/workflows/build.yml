@@ -4,9 +4,9 @@ on:
     types: [build]
   workflow_dispatch:
 
-  env:
-    ACR_NAME: "colinbealesacr"
-    APP_NAME: "colinb"
+env:
+  ACR_NAME: "colinbealesacr"
+  APP_NAME: "colinb"
 
 jobs:
   build:

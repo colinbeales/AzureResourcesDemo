@@ -7,7 +7,6 @@ on:
 env:
   ACR_NAME: "colinbealesacr"
   APP_NAME: "colinb"
-  NAMESPACE: "dev"
   RESOURCE_GROUP: rg-gitops-demo
   CLUSTER_NAME: clu-gitops
 
@@ -50,4 +49,4 @@ jobs:
         with:
           manifests: |
             manifests/deployment.yml
-          images: ${{env.REGISTRY_NAME}}.azurecr.io/${{env.APP_NAME}}:${{github.sha}}
+          images: ${{env.ACR_NAME}}.azurecr.io/${{env.APP_NAME}}:${{github.sha}}

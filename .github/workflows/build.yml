@@ -7,6 +7,7 @@ on:
 env:
   ACR_NAME: "colinbealesacr"
   APP_NAME: "colinb"
+  NAMESPACE: "dev"
 
 jobs:
   build:
@@ -35,3 +36,11 @@ jobs:
 
       - name: Push Image to Docker
         run: docker push ${{env.ACR_NAME}}.azurecr.io/${{env.APP_NAME}}:${{github.sha}}
+
+      - uses: azure/k8s-deploy@v1
+      with:
+        manifests: |
+          manifests/deployment.yml
+        images: |
+          ${{env.REGISTRY_NAME}}.azurecr.io/${{env.APP_NAME}}:${{github.sha}}
+        namespace: ${{env.NAMESPACE}}

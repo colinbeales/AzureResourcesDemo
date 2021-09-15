@@ -37,8 +37,9 @@ jobs:
       - name: Push Image to Docker
         run: docker push ${{env.ACR_NAME}}.azurecr.io/${{env.APP_NAME}}:${{github.sha}}
 
-      - uses: azure/k8s-deploy@v1
-      with:
+      - name: Deploy to AKS
+        uses: azure/k8s-deploy@v1
+        with:
         manifests: |
           manifests/deployment.yml
         images: |

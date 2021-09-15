@@ -21,7 +21,7 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
         - name: colinb
-          image: colinbealesacr.azurecr.io/image:some_tag
+          image: colinbealesacr.azurecr.io/colinb:some_tag
           ports:
             - containerPort: 80
           resources:
